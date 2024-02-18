@@ -39,6 +39,7 @@ function App() {
               <p className='max-w-full break-all px-3 py-2 text-base bg-zinc-300 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl truncate whitespace-normal max-w-md'>{message}</p>
             </div>
           ))}
+          <div ref={(el) => { el?.scrollIntoView({ behavior: 'smooth' }); }} />
         </div>
         <div className="chatInput relative w-full h-1/5">
           {/* Input field for typing messages */}
