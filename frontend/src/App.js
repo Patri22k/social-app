@@ -31,20 +31,21 @@ function App() {
       <div className="chatHistory h-screen w-1/3">
 
       </div>
-      <div className="chatContainer flex flex-col h-screen w-2/3 bg-stone-200">
-        <div className="chatDisplay h-4/5">
+      <div className="chatContainer flex flex-col h-screen w-2/3 bg-zinc-100">
+        <div className="chatDisplay flex flex-col items-end w-full h-4/5 overflow-auto">
         {/*Displaying messages */}
           {messages.map((message, index) => (
-            <div key={index} className="message w-2/5">
-              <p>{message}</p>
+            <div key={index} className="message text-right mr-6 mb-3 mt-3 w-2/5 max-w-md">
+              <p className='max-w-full break-all px-3 py-2 text-base bg-zinc-300 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl truncate whitespace-normal max-w-md'>{message}</p>
             </div>
           ))}
         </div>
-        <div className="chatInput relative h-1/5">
+        <div className="chatInput relative w-full h-1/5">
           {/* Input field for typing messages */}
           <input 
             type="text"
-            className="w-[calc(100%-1rem)] h-12 border-2 pr-40 rounded-3xl z-10" 
+            placeholder='Type here...'
+            className="w-[calc(100%-2rem)] text-base pl-4 mr-3 ml-3 h-12 border-2 rounded-3xl z-10" 
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             value={newMessage}
