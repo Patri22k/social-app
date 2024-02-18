@@ -11,7 +11,7 @@ function App() {
 
         </div>
         <div className="chatInput h-1/5">
-          <input type="text" className="w-[calc(100%-1rem)] h-12   border-2 rounded-3xl" />
+          <input type="text" className="w-[calc(100%-1rem)] h-12 border-2 rounded-3xl" />
         </div>
       </div>
     </div>
