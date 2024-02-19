@@ -42,30 +42,42 @@ function App() {
           <div ref={(el) => { el?.scrollIntoView({ behavior: 'smooth' }); }} />
         </div>
         <div className="chatInput relative w-full h-1/5">
-          {/* Input field for typing messages */}
-          <textarea
-            placeholder='Type here...'
-            className="w-full max-w-[calc(100%-2rem)] text-base pl-4 pr-16 mr-3 ml-3 h-12 border-2 rounded-3xl z-10 resize-none overflow-auto"
-            style= {{
-              overflowWrap: 'break-word',
-              lineHeight: '2.5rem'
-            }}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            value={newMessage}
-          />
-          <button
-            type="Send" 
-            className="absolute top-0 right-5 h-12 w-12"
-            onClick={handleSendNewMessage}
-            >
-              <SendIcon 
-                className='align-middle z-20' 
-                style={{ 
-                fontSize: 36
-                }} 
-              />
-          </button>
+          <div
+            aria-describedby="Správa"
+            aria-label="Správa"
+            class="editable-div"
+            contentEditable="true"
+            spellCheck="true"
+            tabindex="0"
+            data-lexical-editor="true"
+            style={{
+              "user-select": "text",
+              "white-space": "pre-wrap",
+              "word-break": "break-word",
+            }}>
+            {/* Input field for typing messages */}
+            <p
+              contentEditable={true}
+              placeholder='Type here...'
+              className="w-full max-w-[calc(100%-2rem)] text-base pl-4 pr-16 mr-3 ml-3 h-12 border-2 rounded-3xl z-10 resize-none overflow-auto"
+              onInput={handleInputChange}
+              onKeyDown={handleKeyDown}
+              value={newMessage}
+              dangerouslySetInnerHTML={{ __html: newMessage }}
+            ></p>
+            <button
+              type="Send" 
+              className="absolute top-0 right-5 h-12 w-12"
+              onClick={handleSendNewMessage}
+              >
+                <SendIcon 
+                  className='align-middle z-20' 
+                  style={{ 
+                  fontSize: 36
+                  }} 
+                />
+            </button>
+          </div>
         </div>
       </div>
     </div>
