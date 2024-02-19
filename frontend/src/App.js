@@ -35,7 +35,7 @@ function App() {
         <div className="chatDisplay flex flex-col items-end w-full h-4/5 overflow-auto">
         {/*Displaying messages */}
           {messages.map((message, index) => (
-            <div key={index} className="message text-right mr-6 mb-3 mt-3 w-2/5 max-w-md">
+            <div key={index} className="message mr-6 mb-3 mt-3">
               <p className='max-w-full break-all px-3 py-2 text-base bg-zinc-300 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl truncate whitespace-normal max-w-md'>{message}</p>
             </div>
           ))}
@@ -43,10 +43,13 @@ function App() {
         </div>
         <div className="chatInput relative w-full h-1/5">
           {/* Input field for typing messages */}
-          <input 
-            type="text"
+          <textarea
             placeholder='Type here...'
-            className="w-[calc(100%-2rem)] text-base pl-4 mr-3 ml-3 h-12 border-2 rounded-3xl z-10" 
+            className="w-full max-w-[calc(100%-2rem)] text-base pl-4 pr-16 mr-3 ml-3 h-12 border-2 rounded-3xl z-10 resize-none overflow-auto"
+            style= {{
+              overflowWrap: 'break-word',
+              lineHeight: '2.5rem'
+            }}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             value={newMessage}
