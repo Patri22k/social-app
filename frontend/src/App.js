@@ -19,7 +19,13 @@ function App() {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      handleSendNewMessage();
+      if (event.shiftKey) {
+        // If Shift + Enter is pressed, add a new line
+        setNewMessage(newMessage + '\n');
+      } else {
+        // If only Enter is pressed, send the message
+        handleSendNewMessage();
+      }
     }
   }
 
