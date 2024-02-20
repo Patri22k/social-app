@@ -9,6 +9,7 @@ function App() {
 
   // Ref for scrolling to the bottom of the chat
   const bottomRef = useRef(null);
+  const textAreaRef = useRef(null);
 
   // Input Handling
   const handleInputChange = (event) => {
@@ -26,7 +27,7 @@ function App() {
   const handleSendNewMessage = () => {
     if (newMessage.trim() !== '') {
       setMessages([...messages, newMessage]);
-      setNewMessage(''); 
+      setNewMessage('');
     }
   }
 
@@ -35,6 +36,11 @@ function App() {
     bottomRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  useEffect(() => {
+    textAreaRef.current.style.height = "auto";
+    textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px';
+  }, [newMessage]);
+
   return (
     <div className="App flex h-screen">
       <div className="chatHistory h-screen w-1/3">
@@ -42,7 +48,7 @@ function App() {
       </div>
       <div className="chatContainer flex flex-col h-screen w-2/3 bg-zinc-100">
         <div className="chatDisplay flex flex-col items-end w-full h-4/5 overflow-auto">
-        {/*Displaying messages */}
+          {/*Displaying messages */}
           {messages.map((message, index) => (
             <div key={index} className="message mr-6 mb-3 mt-3">
               <p className='max-w-full break-all px-3 py-2 text-base bg-zinc-300 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl truncate whitespace-normal max-w-md'>{message}</p>
@@ -52,18 +58,19 @@ function App() {
         </div>
         <div className="chatInput relative w-full h-1/5">
           {/* Input field for typing messages */}
-          <div
-            className='flex items-center w-full max-w-[calc(100%-2rem)] h-12 pl-4 pr-16 mr-3 ml-3 border-2 rounded-3xl'>
+          <div className='flex flex-row items-center min-h-12 h-fit max-h-full pl-4 py-[1px] mr-3 ml-3 border-2 rounded-3xl'>
             <textarea
-              className='resize-none w-full text-base h-6 //TO DO bg-zinc-100'
+              className='resize-none w-full text-base h-6 bg-zinc-100 focus:outline-none active:outline-none max-h-[calc(20vh-8px)] overflow-scroll scrollbar-hide'
               placeholder='Type here...'
-              onInput={handleInputChange}
+              onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               value={newMessage}
-              ></textarea>
+              rows="1"
+              ref={textAreaRef}
+            ></textarea>
             <button
               type="Send"
-              className="absolute top-0 right-5 h-12 w-12"
+              className="ml-auto h-12 w-12"
               onClick={handleSendNewMessage}>
               <SendIcon
                 className='align-middle z-20'
