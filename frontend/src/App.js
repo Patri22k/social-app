@@ -36,6 +36,7 @@ function App() {
     bottomRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Adjusts textarea height automatically based on content
   useEffect(() => {
     textAreaRef.current.style.height = "auto";
     textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px';
