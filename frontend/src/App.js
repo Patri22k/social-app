@@ -16,6 +16,7 @@ function App() {
     setNewMessage(event.target.value);
   }
 
+  // Keyboard Handling
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
