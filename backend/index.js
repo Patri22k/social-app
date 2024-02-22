@@ -9,16 +9,12 @@ app.use(express.json());
 let messages = [];
 
 app.get('/messages', (req, res) => {
-    let html = '<h1>Messages</h1>';
-    messages.forEach(msg => {
-        html += `<p>${msg.text}</p>`;
-    });
-    res.send(html);
+    res.send(JSON.stringify(messages)).end();
 });
 
-app.post('/messages', (reg, res) => {
-    messages.push(req.body);
-    res.status(201).send();
+app.post('/messages', (req, res) => {
+    messages.push(req.body.message);
+    res.status(201).json({ status: 200 });
 })
 
 const port = process.env.PORT || 3001;
