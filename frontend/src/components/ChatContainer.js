@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import SendIcon from '@material-ui/icons/Send';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 export default function ChatContainer(props) {
     const [newMessage, setNewMessage] = useState('');
@@ -74,7 +75,7 @@ export default function ChatContainer(props) {
                         type="Send"
                         className="ml-auto h-12 w-12"
                         onClick={handleSendNewMessage}>
-                        <SendIcon
+                        <FontAwesomeIcon icon={faPaperPlane}
                             className='align-middle z-20'
                             style={{
                                 fontSize: 36
