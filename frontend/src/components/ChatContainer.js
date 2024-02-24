@@ -76,7 +76,7 @@ export default function ChatContainer(props) {
                         className="ml-auto h-12 w-12"
                         onClick={handleSendNewMessage}>
                         <FontAwesomeIcon icon={faPaperPlane}
-                            className='align-middle z-20'
+                            className='align-middle z-20 mr-3'
                             style={{
                                 fontSize: 36
                             }}

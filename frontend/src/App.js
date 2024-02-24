@@ -1,6 +1,6 @@
 import './App.css';
 import { useEffect, useState } from 'react';
-import { ChatHistory, ChatContainer, ToggleColorMode } from './components';
+import { ChatHistory, ChatContainer } from './components';
 import { getApiUrl } from './util';
 
 function App() {
@@ -39,7 +39,6 @@ function App() {
 
   return (
     <div className="App flex h-screen">
-      <ToggleColorMode />
       <ChatHistory />
       <ChatContainer onNewMessage={handleNewMessage} messages={messages} />
     </div>
