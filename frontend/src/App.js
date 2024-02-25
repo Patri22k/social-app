@@ -1,6 +1,6 @@
 import './App.css';
 import { useEffect, useState } from 'react';
-import { ChatHistory, ChatContainer } from './components';
+import { ChatHistory, ChatContainer, Login } from './components';
 import { getApiUrl } from './util';
 
 function App() {
@@ -39,8 +39,12 @@ function App() {
 
   return (
     <div className="App flex h-screen">
+      <Login />
+      {/* The Chat App */}
+      {/*
       <ChatHistory />
       <ChatContainer onNewMessage={handleNewMessage} messages={messages} />
+      */}
     </div>
   );
 }
