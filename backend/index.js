@@ -1,24 +1,30 @@
 const express = require('express');
+const { Server } = require('socket.io');
+const helmet = require('helmet');
 const cors = require('cors');
-const redis = require('redis');
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
-
-let messages = [];
-
-app.get('/messages', (req, res) => {
-    res.send(JSON.stringify(messages)).end();
+const server = require('http').createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: 'http://localhost:3000',
+        credential: "true",
+    },
 });
 
-app.post('/messages', (req, res) => {
-    messages.push(req.body.message);
-    res.status(201).json({ status: 200 });
-})
+app.use(express.json());
+app.use(helmet());
+app.use(cors());
 
-const port = process.env.PORT || 3001;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}...`);
+app.get('/', (req, res) => {
+    { res.json('hi') };
+});
+
+io.on('connect', (socket) => {
+
+});
+
+server.listen(5000, () => {
+    console.log('Server is running...');
 });
