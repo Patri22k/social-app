@@ -1,11 +1,12 @@
 import './App.css';
-import { useEffect, useState } from 'react';
-import { ChatContainer, ChatHistory, Login, SignUp } from './components';
-import { getApiUrl } from './util';
+// import { useEffect, useState } from 'react';
+// import { getApiUrl } from './util';
+import { Views } from './components';
 
 
 function App() {
   // State Managment
+  /*
   const [messages, setMessages] = useState([]);
 
   const pullData = () => {
@@ -37,10 +38,11 @@ function App() {
     pullData();
     setInterval(pullData, 5000);
   }, []);
+  */
 
   return (
     <div className="App">
-      <Login />
+      <Views />
       {/* The Chat App */ }
       {/*
       <ChatHistory />
