@@ -2,6 +2,7 @@ const express = require('express');
 const { Server } = require('socket.io');
 const helmet = require('helmet');
 const cors = require('cors');
+const authRouter = require('./routhers/authRouter');
 
 const app = express();
 
@@ -15,11 +16,12 @@ const io = new Server(server, {
 
 app.use(express.json());
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+}));
 
-app.get('/', (req, res) => {
-    { res.json('hi') };
-});
+app.use('/auth', authRouter);
 
 io.on('connect', (socket) => {
 
