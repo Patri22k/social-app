@@ -1,15 +1,11 @@
-import React from 'react';
 import '../../App.css';
-import { Button, Form, Input } from 'antd';
+import 'antd/dist/antd.min.css';
 import { UserOutlined } from '@ant-design/icons';
+import { Input, Form, SubmitButton } from 'formik-antd';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import TextField from '../TextField';
 
 const Login = () => {
-    const navigate = useNavigate();
-
     return (
         <Formik
             initialValues={{ username: '', password: '' }}
@@ -61,16 +57,16 @@ const Login = () => {
                     <div
                         className='flex flex-col gap-y-3 w-[80%] md:w-1/2 lg:w-1/3'
                     >
-                        <TextField
+                        <Input
                             help={formik.errors.username && formik.touched.username ? formik.errors.username : null}
                             validateStatus={formik.errors.username && formik.touched.username ? 'error' : null}
                             name="username"
                             label="Username"
-                            tooltip="This is a required field"
                             placeholder='Enter username...'
                             size='large'
                             prefix={<UserOutlined />}
-                        />
+                        >
+                        </Input>
                         <Input.Password
                             help={formik.errors.password && formik.touched.password ? formik.errors.password : null}
                             validateStatus={formik.errors.password && formik.touched.password ? 'error' : null}
@@ -78,23 +74,23 @@ const Login = () => {
                             label="Password"
                             tooltip="This is a required field"
                             placeholder='Enter password...'
-
                             size='large'
-                        />
+                        >
+                        </Input.Password>
                         <div className='Buttons flex justify-center gap-x-4'>
-                            <Button className="bg-[#1677ff]"
-                                type="primary"
-                                htmlType='submit'
-                            >
-                                Log In
-                            </Button>
-                            <Button
-                                className="bg-[#1677ff]"
-                                type="primary"
-                                onClick={() => navigate('/signup')}
-                            >
-                                Sign Up
-                            </Button>
+                                <SubmitButton
+                                    name='submit'
+                                    type='primary'
+                                    htmlType='submit'
+                                >
+                                    Log In
+                                </SubmitButton>
+                                <SubmitButton
+                                    name='submit'
+                                    type='default' 
+                                >
+                                    Sign Up
+                                </SubmitButton>
                         </div>
                     </div>
                 </Form>
