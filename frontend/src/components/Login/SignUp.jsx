@@ -1,13 +1,16 @@
 import React from 'react';
 import '../../App.css';
 import 'antd/dist/antd.min.css';
-import { Form as AntForm } from 'formik-antd';
+import { Button as AntButton } from 'antd';
 import { UserOutlined, ArrowLeftOutlined } from '@ant-design/icons';
-import { Field, Input, Form, SubmitButton } from 'formik-antd';
+import { Field, Input, Form, SubmitButton, Form as AntForm } from 'formik-antd';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   return (
       <Formik
         initialValues={{ username: '', password: '' }}
@@ -52,10 +55,10 @@ const SignUp = () => {
         {formik => (
           <Form
             className='h-screen w-full flex flex-col items-center justify-center'
+            layout='vertical' 
             onFinish={formik.handleSubmit}
-            layout='vertical'
           >
-            <h1 className='text-4xl font-bold mb-8'>Log In</h1>
+            <h1 className='text-4xl font-bold mb-8'>Create Account</h1>
             <div className='flex flex-col w-[80%] md:w-1/2 lg:w-2/5'>
               <AntForm.Item name="username" label="Username">
                 <Field
@@ -64,6 +67,7 @@ const SignUp = () => {
                   placeholder='Enter username...'
                   size='large'
                   prefix={<UserOutlined />}
+                  autoComplete='off'
                 />
               </AntForm.Item>
               <AntForm.Item name="password" label="Password">
@@ -73,20 +77,27 @@ const SignUp = () => {
                   tooltip="This is a required field"
                   placeholder='Enter password...'
                   size='large'
+                  autoComplete='off'
                 />
               </AntForm.Item>
               <div className='Buttons flex justify-center gap-x-4'>
-                <SubmitButton type='primary'>Create Account</SubmitButton>
-                <SubmitButton
+              <SubmitButton
+                name='submit'
+                type='primary'
+                >
+                  Create Account
+                </SubmitButton>
+                <AntButton
+                  name="submit"
                   type='primary'
                   onClick={() => {
-                    window.location.href = '/';
+                    navigate('/login');
                   }}
                 >
                   <div className='flex items-center justift-center gap-x-2'>
                     <ArrowLeftOutlined /> Back
                   </div>
-                </SubmitButton>
+                </AntButton>
               </div>
             </div>
           </Form>

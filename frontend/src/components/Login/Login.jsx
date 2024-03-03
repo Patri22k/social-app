@@ -2,12 +2,15 @@ import React from 'react';
 import '../../App.css';
 import 'antd/dist/antd.min.css';
 import { UserOutlined } from '@ant-design/icons';
-import { Form as AntForm } from 'formik-antd';
-import { Field, Input, Form, SubmitButton } from 'formik-antd';
+import { Field, Input, Form, SubmitButton, Form as AntForm } from 'formik-antd';
+import { Button as AntButton } from 'antd';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
+
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
@@ -64,6 +67,7 @@ const Login = () => {
                 placeholder='Enter username...'
                 size='large'
                 prefix={<UserOutlined />}
+                autoComplete='off'
               />
             </AntForm.Item>
             <AntForm.Item name="password" label="Password">
@@ -73,25 +77,25 @@ const Login = () => {
                 tooltip="This is a required field"
                 placeholder='Enter password...'
                 size='large'
+                autoComplete='off'
               />
             </AntForm.Item>
             <div className='Buttons flex justify-center gap-x-4'>
               <SubmitButton
                 name='submit'
                 type='primary'
-                htmlType='submit'
               >
                 Log In
               </SubmitButton>
-              <SubmitButton
+              <AntButton
                 name='submit'
                 type='primary' 
                 onClick={() => {
-                    window.location.href = '/signup';
+                    navigate('/signup')
                 }}
               >
                 Sign Up
-              </SubmitButton>
+              </AntButton>
             </div>
           </div>
         </Form>
