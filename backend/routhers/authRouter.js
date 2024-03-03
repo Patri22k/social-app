@@ -1,30 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const yup = require('yup');
-
-const schema = yup.object().shape({
-    username: yup.string()
-        .required("Username required!")
-        .min(6, "Username is too short!")
-        .max(20, "Username is too long!"),
-    password: yup.string()
-        .required("Password required!")
-        .min(6, "Password is too short!")
-        .max(20, "Password is too long!"),
-});
+const formVerification = require('../controlers/formVerification');
 
 router.post('/login', (req, res) => {
-    const data = req.body;
-    schema
-    .validate(data)
-    .catch(err => {
-        console.log(err.errors);
-    })
-    .then(valid => {
-        if (valid) {
-            console.log("Form is valid!");
-        }
-    });
+  formVerification(req, res);
+});
+
+router.post('/signup', (req, res) => {
+  formVerification(req, res);
 });
 
 module.exports = router;
