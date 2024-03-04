@@ -27,29 +27,26 @@ const SignUp = () => {
         onSubmit={(values, actions) => {
           actions.resetForm();
 
-          fetch('http://localhost:5000/auth/login', {
+          fetch('http://localhost:5000/auth/signup', {
             method: 'POST',
             credentials: 'include',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(values),
-          })
-            .catch(err => {
+          }).catch(err => {
+            return;
+          }).then(res => {
+            if (!res || !res.ok || res.status >= 400) {
               return;
-            })
-            .then(res => {
-              if (!res || !res.ok || res.status >= 400) {
-                return;
-              }
-              return res.json();
-            })
-            .then(data => {
-              if (!data) {
-                return;
-              }
-              console.log(data);
-            });
+            }
+            return res.json();
+          }).then(data => {
+            if (!data) {
+              return;
+            }
+            console.log(data);
+          });
         }}
       >
         {formik => (

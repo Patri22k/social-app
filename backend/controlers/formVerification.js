@@ -16,12 +16,14 @@ const formVerification = (req, res) => {
   schema
     .validate(data)
     .catch(err => {
-      res.status(422).send();
+      res.status(422).json( { message: err.errors } );
       console.log(err.errors);
     })
     .then(valid => {
       if (valid) {
-        res.status(200).send();
+        const status = 200;
+        const message = "Form is valid!";
+        res.status(200).json( { status, message } );
         console.log("Form is valid!");
       }
     });
