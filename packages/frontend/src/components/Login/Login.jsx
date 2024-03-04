@@ -5,8 +5,8 @@ import { UserOutlined } from '@ant-design/icons';
 import { Field, Input, Form, SubmitButton, Form as AntForm } from 'formik-antd';
 import { Button as AntButton } from 'antd';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { schema } from '@socialapp-clone/shared/validationSchema';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,16 +14,7 @@ const Login = () => {
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
-      validationSchema={Yup.object({
-        username: Yup.string()
-          .required('This is a required field')
-          .min(6, 'Username must be at least 6 characters long')
-          .max(20, 'Username must be at most 20 characters long'),
-        password: Yup.string()
-          .required('This is a required field')
-          .min(6, 'Password must be at least 6 characters long')
-          .max(20, 'Password must be at most 20 characters long'),
-      })}
+      validationSchema={schema}
       onSubmit={(values, actions) => {
         actions.resetForm();
 
