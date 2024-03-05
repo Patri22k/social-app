@@ -10,6 +10,8 @@ The project is divided into three main workspaces: `packages/backend`, `packages
 
 You can run scripts in the `backend` and `frontend` workspaces using the `-w` or `--workspace` option with `npm run`. For example, to start the backend, you would run `npm run -w packages/backend start`. The `shared` workspace does not need to be started separately as it is used by the other two workspaces.
 
+Note: The `frontend` workspace includes a `node_modules/.cache` directory. This directory is used by various tools (like Babel or ESLint) to cache intermediate results and improve performance. You should not need to interact with this directory directly, and it is typically included in the `.gitignore` file to prevent it from being committed to the repository.
+
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
