@@ -4,8 +4,6 @@
  */
 
 import { Routes, Route } from 'react-router-dom';
-import ChatContainer from './ChatContainer';
-import ChatHistory from './ChatHistory';
 import Login from './Login/Login';
 import SignUp from './Login/SignUp';
 
@@ -15,8 +13,6 @@ const Views = () => {
             <Route path="/" element={<Login />}/>
             <Route path="/signup" element={<SignUp />}/>
             <Route path="*" element={<Login />} />
-            <Route path="/chat" element={<ChatContainer />} />
-            <Route path="/history" element={<ChatHistory />} />
         </Routes>
     )
 }
