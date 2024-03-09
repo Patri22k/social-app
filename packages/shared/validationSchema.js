@@ -1,5 +1,16 @@
 const yup = require('yup');
 
+/**
+ * Type definition for the validation schema.
+ * @typedef {Object} Schema
+ * @property {string} username - The username field.
+ * @property {string} password - The password field.
+ */
+
+/**
+ * A Yup object schema for validating user input.
+ * @type {Schema}
+ */
 const schema = yup.object({
     username: yup.string()
         .required('This is a required field')
