@@ -1,3 +1,14 @@
+
+/**
+ * Represents a chat container component.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Array} props.messages - The array of messages to display in the chat.
+ * @param {Function} props.onNewMessage - The function to handle sending a new message.
+ * @returns {JSX.Element} The chat container component.
+ */
+
 import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
