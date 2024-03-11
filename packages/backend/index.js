@@ -1,3 +1,8 @@
+/**
+ * This is the main file for the backend of the social app.
+ * It sets up the Express server, Socket.IO, and routes for authentication.
+ */
+
 const express = require('express');
 const { Server } = require('socket.io');
 const helmet = require('helmet');
@@ -21,12 +26,26 @@ app.use(cors({
     credentials: true,
 }));
 
+/**
+ * Middleware for handling authentication routes.
+ * All routes starting with '/auth' will be handled by the authRouter.
+ */
 app.use('/auth', authRouter);
 
+/**
+ * Event listener for when a client connects to the server using Socket.IO.
+ * This function will be called whenever a new client connects.
+ *
+ * @param {Socket} socket - The Socket.IO socket object representing the client connection.
+ */
 io.on('connect', (socket) => {
-
+    // Handle socket events here
 });
 
+/**
+ * Start the server and listen on port 5000.
+ * This function will be called when the server starts listening.
+ */
 server.listen(5000, () => {
     console.log('Server is running...');
 });
