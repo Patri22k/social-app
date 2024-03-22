@@ -7,7 +7,10 @@ const express = require('express');
 const { Server } = require('socket.io');
 const helmet = require('helmet');
 const cors = require('cors');
-const authRouter = require('./routhers/authRouter');
+const authRouter = require('./routers/authRouter');
+const userRouter = require('./routers/userRouter');
+const { jwtMW } = require('./middleware/auth');
+const { secret } = require('./controlers/auth');
 
 const app = express();
 
@@ -31,6 +34,8 @@ app.use(cors({
  * All routes starting with '/auth' will be handled by the authRouter.
  */
 app.use('/auth', authRouter);
+app.use(jwtMW);
+app.use(userRouter);
 
 /**
  * Event listener for when a client connects to the server using Socket.IO.

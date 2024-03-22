@@ -6,6 +6,9 @@
 /.pnp
 .pnp.js
 
+# Keep environment variables out of version control
+/packages/backend/.env
+
 # testing
 /coverage
 

@@ -15,7 +15,7 @@ const formVerification = require('../controlers/formVerification');
  * @param {Object} res - Express response object
  */
 router.post('/login', (req, res) => {
-  formVerification(req, res);
+  formVerification(req, res, "login");
 });
 
 /**
@@ -26,7 +26,7 @@ router.post('/login', (req, res) => {
  * @param {Object} res - Express response object
  */
 router.post('/signup', (req, res) => {
-  formVerification(req, res);
+  formVerification(req, res, "signup");
 });
 
 module.exports = router;
