@@ -1,4 +1,3 @@
-
 /**
  * Represents a chat container component.
  *
@@ -12,9 +11,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { useUser } from '../../hooks/user';
 
 export default function ChatContainer(props) {
     const [newMessage, setNewMessage] = useState('');
+    const {user} = useUser();
 
     // Ref for scrolling to the bottom of the chat
     const bottomRef = useRef(null);
@@ -65,7 +66,7 @@ export default function ChatContainer(props) {
                 {/*Displaying messages */}
                 {messages.map((message, index) => (
                     <div key={index} className="message mr-6 mb-3 mt-3">
-                        <p className='max-w-full break-all px-3 py-2 text-base bg-zinc-300 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl truncate whitespace-normal max-w-md'>{message}</p>
+                        <p className='max-w-full break-all px-3 py-2 text-base bg-zinc-300 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl truncate whitespace-normal'>{message}</p>
                     </div>
                 ))}
                 <div ref={bottomRef}></div>
@@ -74,8 +75,8 @@ export default function ChatContainer(props) {
                 {/* Input field for typing messages */}
                 <div className='flex flex-row items-center min-h-12 h-fit max-h-full pl-4 py-[1px] mr-3 ml-3 border-2 rounded-3xl'>
                     <textarea
-                        className='resize-none w-full text-base h-6 bg-zinc-100 focus:outline-none active:outline-none max-h-[calc(20vh-8px)] overflow-scroll scrollbar-hide'
-                        placeholder='Type here...'
+                        className='resize-none w-full text-base h-6 bg-zinc-100 focus:outline-none active:outline-none max-h-[calc(20vh-8px)] overflow-x-hidden'
+                        placeholder={user.name}
                         onChange={handleInputChange}
                         onKeyDown={handleKeyDown}
                         value={newMessage}

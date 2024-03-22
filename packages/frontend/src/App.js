@@ -1,4 +1,5 @@
-import './App.css';
+import './index.css';
+import './App.css'
 // import { useEffect, useState } from 'react';
 // import { getApiUrl } from './util';
 import Views from './components/Views';

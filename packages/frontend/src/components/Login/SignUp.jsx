@@ -7,6 +7,8 @@ import { Field, Input, Form, SubmitButton, Form as AntForm } from 'formik-antd';
 import { Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { schema } from '@socialapp-clone/shared/validationSchema'; 
+import { handleAuthLogin } from '../../handlers/auth';
+import { getApiUrl } from '../../util';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ const SignUp = () => {
         onSubmit={(values, actions) => {
           actions.resetForm();
 
-          fetch('http://localhost:5000/auth/signup', {
+          fetch(getApiUrl('/auth/signup'), {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -26,17 +28,8 @@ const SignUp = () => {
             body: JSON.stringify(values),
           }).catch(err => {
             return;
-          }).then(res => {
-            if (!res || !res.ok || res.status >= 400) {
-              return;
-            }
-            return res.json();
-          }).then(data => {
-            if (!data) {
-              return;
-            }
-            console.log(data);
-          });
+          }).then(res => res.json())
+            .then(handleAuthLogin(navigate));
         }}
       >
         {formik => (

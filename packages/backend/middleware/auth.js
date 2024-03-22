@@ -6,8 +6,12 @@ const jwtMW = (req, res, next) => {
         return;
     }
     try {
-        req.user = decodeJwt(req.headers.authorization.replace(" ")[1]);
-        next();
+        req.user = decodeJwt(req.headers.authorization.split(" ")[1]);
+        if (req.user) {
+            next();
+        } else {
+            res.status(401).json({ status: 401, message: 'Invalid token' });
+        }
     } catch (e) {
         res.status(401).json({ status: 401, message: "Unauthorized" });
     }

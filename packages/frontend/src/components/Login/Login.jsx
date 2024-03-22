@@ -7,6 +7,8 @@ import { Button as AntButton } from 'antd';
 import { Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { schema } from '@socialapp-clone/shared/validationSchema';
+import { handleAuthLogin } from '../../handlers/auth';
+import { getApiUrl } from '../../util';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,15 +20,14 @@ const Login = () => {
       onSubmit={(values, actions) => {
         actions.resetForm();
 
-        fetch('http://localhost:5000/auth/login', {
+        fetch(getApiUrl('/auth/login'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
             body: JSON.stringify(values),
-          }).then(res => res.json()).then(data => {
-            console.log(data);
-          });
+          }).then(res => res.json())
+            .then(handleAuthLogin(navigate));
       }}
     >
       {formik => (

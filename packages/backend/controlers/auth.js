@@ -24,7 +24,7 @@ const handleLogin = ({ usr, pwd }, req, res) => {
     getUser(usr, (user) => {
         if (!user) {
             res.status(404).json({ status: 404, message: "User not found" });
-        } else if (user.cred.hash !== hashPwd(pwd)) {
+        } else if (user.credentials.hash !== hashPwd(pwd)) {
             res.status(401).json({ status: 401, message: "Invalid password" });
         } else {
             res.status(200).json({ status: 200, jwt: encodeJwt(user), user: { id: user.id, name: user.name } });
@@ -36,18 +36,18 @@ const handleSignup = ({ usr, pwd }, req, res) => {
     getUser(usr, (user) => {
         if (user) {
             res.status(409).json({ status: 409, message: "User does exist." });
-        } else {
-            saveUser({
-                name: usr,
-                credentials: {
-                    create: {
-                        hash: hashPwd(pwd)
-                    }
-                }
-            }, ({ id, name }) => {
-                res.status(200).json({ status: 200, jwt: encodeJwt({ id, name }), user: { id, name } });
-            });
+            return;
         }
+        saveUser({
+            name: usr,
+            credentials: {
+                create: {
+                    hash: hashPwd(pwd)
+                }
+            }
+        }, ({ id, name }) => {
+            res.status(200).json({ status: 200, jwt: encodeJwt({ id, name }), user: { id, name } });
+        });
     });
 };
 
