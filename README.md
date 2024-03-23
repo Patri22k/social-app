@@ -1,6 +1,6 @@
 # Mini Social App
 
-This is a mini social app for learning app development. It features form validation and plans to add chat functionality.
+This is a mini social app for learning app development. It features form validation and plans to add proper chat functionality with multiple users.
 
 ## Project Structure
 
