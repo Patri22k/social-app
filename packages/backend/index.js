@@ -9,8 +9,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const authRouter = require('./routers/authRouter');
 const userRouter = require('./routers/userRouter');
-const { jwtMW } = require('./middleware/auth');
-const { secret } = require('./controlers/auth');
+const { jwtMW, foo } = require('./middleware/auth');
 
 const app = express();
 

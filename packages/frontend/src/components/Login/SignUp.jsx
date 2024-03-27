@@ -9,9 +9,11 @@ import { useNavigate } from 'react-router-dom';
 import { schema } from '@socialapp-clone/shared/validationSchema'; 
 import { handleAuthLogin } from '../../handlers/auth';
 import { getApiUrl } from '../../util';
+import { useUser } from '../../hooks/user';
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { revalidate } = useUser();
 
   return (
       <Formik
@@ -27,9 +29,17 @@ const SignUp = () => {
             },
             body: JSON.stringify(values),
           }).catch(err => {
+            console.log(err);
             return;
-          }).then(res => res.json())
-            .then(handleAuthLogin(navigate));
+          })
+            .then(async (res) => {
+              const jsn = await res.json();
+              if (res.ok) {
+                handleAuthLogin(navigate, revalidate)(jsn);
+              } else if (jsn.message) {
+                // setErr(jsn.message);
+              }
+            });
         }}
       >
         {formik => (

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { getApiUrl } from "../util";
 import { useNavigate } from "react-router-dom";
 
@@ -10,8 +10,9 @@ const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
-
-    useEffect(() => {
+    
+    // Obtain new data
+    const revalidate = () => {
         // Obtain local JWT val
         const jwt = localStorage.getItem("jwt");
         if (!jwt) {
@@ -30,9 +31,13 @@ const UserProvider = ({ children }) => {
             .then(({ user }) => setUser(user))
             .catch((e) => setError(e.message))
             .finally(() => setFetching(false))
+    }
+
+    useEffect(() => {
+        revalidate();
     }, []);
     return (
-        <UserContext.Provider value={{ user, fetching, error }}>
+        <UserContext.Provider value={{ user, fetching, error, revalidate }}>
             {children}
         </UserContext.Provider>
     )

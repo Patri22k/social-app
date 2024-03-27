@@ -40,11 +40,7 @@ const handleSignup = ({ usr, pwd }, req, res) => {
         }
         saveUser({
             name: usr,
-            credentials: {
-                create: {
-                    hash: hashPwd(pwd)
-                }
-            }
+            credentials: { create: { hash: hashPwd(pwd) } }
         }, ({ id, name }) => {
             res.status(200).json({ status: 200, jwt: encodeJwt({ id, name }), user: { id, name } });
         });

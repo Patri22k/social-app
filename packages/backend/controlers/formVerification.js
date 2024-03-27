@@ -24,7 +24,6 @@ const formVerification = (req, res, action) => {
       console.log(err.errors);
     })
     .then(valid => {
-      // If validation succeeds, send a 200 status code and a success message
       if (valid) {
         const cred = {
           usr: data.username,

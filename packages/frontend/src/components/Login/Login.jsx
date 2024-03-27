@@ -9,9 +9,13 @@ import { useNavigate } from 'react-router-dom';
 import { schema } from '@socialapp-clone/shared/validationSchema';
 import { handleAuthLogin } from '../../handlers/auth';
 import { getApiUrl } from '../../util';
+import { useUser } from '../../hooks/user';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { revalidate } = useUser();
 
   return (
     <Formik
@@ -26,8 +30,15 @@ const Login = () => {
             'Content-Type': 'application/json',
           },
             body: JSON.stringify(values),
-          }).then(res => res.json())
-            .then(handleAuthLogin(navigate));
+          })
+          .then(async (res) => {
+            const jsn = await res.json();
+            if (res.ok) {
+              handleAuthLogin(navigate, revalidate)(jsn);
+            } else if (jsn.message) {
+              toast(<p>{jsn.message}</p>);
+            }
+          });
       }}
     >
       {formik => (
