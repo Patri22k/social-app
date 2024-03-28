@@ -1,31 +1,43 @@
+import './Navbar.css';
+import user from './img/user.png';
+import edit from './img/edit.png';
+import inbox from './img/envelope.png';
+import settings from './img/settings.png';
+import help from './img/question.png';
+import logout from './img/log-out.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
+import { useState, useRef } from "react";
 
 export default function Navbar() {
-    // TODO: add Menu Bar 
-    const handleMenuBar = () => {
-        const options = ['Go to LogIn', 'Create Another Account', 'Switch Accounts'];
-        const defaultOption = options[0];
-        return (
-            <Dropdown
-                options={options}
-                onChange={this._onSelect}
-                value={defaultOption}
-            />
-        )
-    };
+    const [open, setOpen] = useState(false);
+    const menuRef = useRef();
 
     return (
-        <div className="h-screen w-[50px] bg-zinc-100">
-            <button
-                onClick={handleMenuBar}
-                value={value}
-                className="w-full mt-3"
-            >
-                <FontAwesomeIcon icon={faBars} className="text-2xl" />
-            </button>
+        <div className="navbar-container h-screen w-[50px] bg-zinc-100" ref={menuRef}>
+            <div className="menu-trigger w-full mt-2 py-2" onClick={() => {setOpen(!open)}}>
+                <FontAwesomeIcon icon={faBars} className='text-3xl w-full'/>
+            </div>
+            <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`} >
+                <h3>Patrik<br /><span>A Dog Lover</span></h3>
+                <ul>
+                    <DropdownItem img={user} text={"My Profile"} />
+                    <DropdownItem img={edit} text={"Edit Profile"} />
+                    <DropdownItem img={inbox} text={"Inbox"} />
+                    <DropdownItem img={settings} text={"Settings"} />
+                    <DropdownItem img={help} text={"Helps"} />
+                    <DropdownItem img={logout} text={"Logout"} />
+                </ul>
+            </div>
         </div>
     )
 };
+
+function DropdownItem(props) {
+    return (
+        <li className='dropdownItem'>
+            <img src={props.img}></img>
+            <a> {props.text} </a>
+        </li>
+    );
+}
