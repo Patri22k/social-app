@@ -10,6 +10,8 @@ import { schema } from '@socialapp-clone/shared/validationSchema';
 import { handleAuthLogin } from '../../handlers/auth';
 import { getApiUrl } from '../../util';
 import { useUser } from '../../hooks/user';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -36,8 +38,8 @@ const SignUp = () => {
               const jsn = await res.json();
               if (res.ok) {
                 handleAuthLogin(navigate, revalidate)(jsn);
-              } else if (jsn.message) {
-                // setErr(jsn.message);
+              } else {
+                toast.error(<div className="text-lg">{jsn.message}</div>);
               }
             });
         }}

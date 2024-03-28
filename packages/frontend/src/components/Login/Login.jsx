@@ -36,7 +36,7 @@ const Login = () => {
             if (res.ok) {
               handleAuthLogin(navigate, revalidate)(jsn);
             } else if (jsn.message) {
-              toast(<p>{jsn.message}</p>);
+              toast.error(<div className='text-lg'>{jsn.message}</div>);
             }
           });
       }}

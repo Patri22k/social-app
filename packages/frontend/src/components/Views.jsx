@@ -11,9 +11,9 @@ import ChatPage from './Chat/ChatPage';
 const Views = () => {
     return (
         <Routes>
+            <Route path="*" element={<Login />} />
             <Route path="/" element={<Login />}/>
             <Route path="/signup" element={<SignUp />}/>
-            <Route path="*" element={<Login />} />
             <Route path="/app" element={<ChatPage />} />
         </Routes>
     )

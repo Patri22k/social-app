@@ -11,11 +11,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { useUser } from '../../hooks/user';
 
 export default function ChatContainer(props) {
     const [newMessage, setNewMessage] = useState('');
-    const {user} = useUser();
 
     // Ref for scrolling to the bottom of the chat
     const bottomRef = useRef(null);
@@ -76,7 +74,7 @@ export default function ChatContainer(props) {
                 <div className='flex flex-row items-center min-h-12 h-fit max-h-full pl-4 py-[1px] mr-3 ml-3 border-2 rounded-3xl'>
                     <textarea
                         className='resize-none w-full text-base h-6 bg-zinc-100 focus:outline-none active:outline-none max-h-[calc(20vh-8px)] overflow-x-hidden'
-                        placeholder={user.name}
+                        placeholder="Here you can type..."
                         onChange={handleInputChange}
                         onKeyDown={handleKeyDown}
                         value={newMessage}
