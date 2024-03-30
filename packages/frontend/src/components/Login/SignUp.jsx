@@ -12,6 +12,8 @@ import { getApiUrl } from '../../util';
 import { useUser } from '../../hooks/user';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { handleArrowDownClick } from '../keyHandlers/arrowDown';
+import { handleArrowUpClick } from '../keyHandlers/arrowUp';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -60,6 +62,7 @@ const SignUp = () => {
                   size='large'
                   prefix={<UserOutlined />}
                   autoComplete='off'
+                onKeyDown={handleArrowDownClick}
                 />
               </AntForm.Item>
               <AntForm.Item name="password" label="Password">
@@ -70,6 +73,7 @@ const SignUp = () => {
                   placeholder='Enter password...'
                   size='large'
                   autoComplete='off'
+                  onKeyDown={handleArrowUpClick}
                 />
               </AntForm.Item>
               <div className='Buttons flex justify-center gap-x-4'>
