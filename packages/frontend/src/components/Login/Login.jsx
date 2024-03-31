@@ -40,6 +40,10 @@ const Login = () => {
             } else if (jsn.message) {
               toast.error(<div className='text-lg'>{jsn.message}</div>);
             }
+          })
+          .catch((err) => {
+            console.log(err);
+            toast.error(<div className='text-lg'>Failed to connect to the server. Please check your connection.</div>);
           });
       }}
     >
