@@ -9,9 +9,10 @@ const helmet = require('helmet');
 const cors = require('cors');
 const authRouter = require('./routers/authRouter');
 const userRouter = require('./routers/userRouter');
-const { jwtMW, foo } = require('./middleware/auth');
+const { PrismaClient } = require('@prisma/client');
 
 const app = express();
+const prisma = new PrismaClient();
 
 const server = require('http').createServer(app);
 const io = new Server(server, {
@@ -33,8 +34,24 @@ app.use(cors({
  * All routes starting with '/auth' will be handled by the authRouter.
  */
 app.use('/auth', authRouter);
-app.use(jwtMW);
 app.use(userRouter);
+
+// Set up the /users endpoint
+app.get('/users', async (req, res) => {
+    const { name } = req.query.name;
+
+    // Query the database using Prisma
+    const users = await prisma.user.findMany({
+        where: {
+            name: {
+                contains: name,
+            },
+        },
+    });
+
+    // Send the resutl back to the client
+    res.json(users);
+});
 
 /**
  * Event listener for when a client connects to the server using Socket.IO.

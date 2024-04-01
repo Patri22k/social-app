@@ -35,10 +35,11 @@ export default function ChatPage(props) {
     const textAreaRef = useRef(null);
     const messages = props.messages;
 
-    // Input Handling
-    const handleInputChange = (event) => {
-        setNewMessage(event.target.value);
-    }
+    /* Input Handling
+     * const handleInputChange = (event) => {
+     *     setNewMessage(event.target.value);
+     * }
+     */
 
     // Keyboard Handling
     const handleKeyDown = (event) => {
@@ -78,10 +79,42 @@ export default function ChatPage(props) {
         textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px';
     }, [newMessage]);
 
+    const [searchTerm, setSearchTerm] = useState('');
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            const token = localStorage.getItem('jwt');
+            try {
+                const response = await fetch(`http://localhost:5000/users?name=${searchTerm}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                setUsers(data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchUsers();
+    }, [searchTerm]);
+
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        setIsEmpty(value === '')
+    };
+
+    const [isEmpty, setIsEmpty] = useState(true);
+
     return (
         <RestrictedContent>
             <div className="flex flex-row">
-                <div className="navbar h-screen w-[50px] bg-zinc-100">
+                <div className="navbar h-screen w-[50px]">
                     <div className="grid menu-trigger w-full mt-2 py-2 gap-y-3">
                         <FontAwesomeIcon icon={faBars} onClick={() => { setOpen(!open) }} ref={menuRef} className='text-3xl w-full' />
                         <FontAwesomeIcon icon={faMagnifyingGlass} className='text-3xl w-full' onClick={handleSearch} />
@@ -98,9 +131,30 @@ export default function ChatPage(props) {
                         </ul>
                     </div>
                 </div>
-                <div className="chatHistory h-screen w-[calc(33%-50px)]">
+                <div className="chatHistory h-screen w-[calc(33%-50px)] border-x-2">
+                    <div>
+                        <div className={`${isEmpty ? 'border-b-2' : 'border-hidden'}`}> 
+                            <h2 className="text-3xl mt-7 mb-10 ml-4">Search</h2>
+                            <div className="flex items-center rounded mx-4 mb-5 h-10 bg-gray-200">
+                                <textarea 
+                                    className="w-full mx-3 text-base resize-none h-[24px] truncate bg-gray-200 overflow-x-hidden focus:outline-none active:outline-none" 
+                                    placeholder="Search for a chat..."
+                                    value={searchTerm}
+                                    name="searchTerm"
+                                    onChange={handleInputChange}
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        {searchTerm && users.filter(user => user.name.startsWith(searchTerm)).map(user => (
+                            <div key={user.id} className="my-2 ml-4">
+                                {user.name}
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <div className="chatContainer flex flex-col h-screen w-2/3 bg-zinc-100">
+                <div className="chatContainer flex flex-col h-screen w-2/3">
                     <div className="chatDisplay flex flex-col items-end w-full h-4/5 overflow-auto">
                         {/*Displaying messages */}
                         {messages && messages.map((message, index) => (
@@ -114,7 +168,7 @@ export default function ChatPage(props) {
                         {/* Input field for typing messages */}
                         <div className='flex flex-row items-center min-h-12 h-fit max-h-full pl-4 py-[1px] mr-3 ml-3 border-2 rounded-3xl'>
                             <textarea
-                                className='resize-none w-full text-base h-6 bg-zinc-100 focus:outline-none active:outline-none max-h-[calc(20vh-8px)] overflow-x-hidden'
+                                className='resize-none w-full text-base h-6 focus:outline-none active:outline-none max-h-[calc(20vh-8px)] overflow-x-hidden'
                                 placeholder="Here you can type..."
                                 onChange={handleInputChange}
                                 onKeyDown={handleKeyDown}
