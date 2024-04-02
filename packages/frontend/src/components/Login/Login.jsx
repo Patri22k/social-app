@@ -25,7 +25,8 @@ const Login = () => {
       validationSchema={schema}
       onSubmit={(values, actions) => {
         actions.resetForm();
-
+        
+        // TODO: Refactor the code so when server is off, it navigates to /service-unavailable
         fetch(getApiUrl('/auth/login'), {
           method: 'POST',
           headers: {
@@ -37,6 +38,9 @@ const Login = () => {
             const jsn = await res.json();
             if (res.ok) {
               handleAuthLogin(navigate, revalidate)(jsn);
+            } else if (res.status === 503) {
+              console.log('Navigating to /service-unavailable');
+              navigate('/service-unavailable');
             } else if (jsn.message) {
               toast.error(<div className='text-lg'>{jsn.message}</div>);
             }

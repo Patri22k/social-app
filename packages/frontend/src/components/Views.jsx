@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom';
 import Login from './Login/Login';
 import SignUp from './Login/SignUp';
 import ChatPage from './Chat/ChatPage';
+import ServiceUnavailable from './Login/ServiceUnavailable';
 
 const Views = () => {
     return (
@@ -15,6 +16,7 @@ const Views = () => {
             <Route path="/" element={<Login />}/>
             <Route path="/signup" element={<SignUp />}/>
             <Route path="/app" element={<ChatPage />} />
+            <Route path="/service-unavailable" element={<ServiceUnavailable />} />
         </Routes>
     )
 }
