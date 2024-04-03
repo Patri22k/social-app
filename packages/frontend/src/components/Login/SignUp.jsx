@@ -12,8 +12,8 @@ import { getApiUrl } from '../../util';
 import { useUser } from '../../hooks/user';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { handleArrowDownClick } from '../keyHandlers/arrowDown';
-import { handleArrowUpClick } from '../keyHandlers/arrowUp';
+import { handleArrowDownClick } from '../../handlers/key/arrowDown';
+import { handleArrowUpClick } from '../../handlers/key/arrowUp';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -26,6 +26,7 @@ const SignUp = () => {
         onSubmit={(values, actions) => {
           actions.resetForm();
 
+          // TODO: Add func when server is offline
           fetch(getApiUrl('/auth/signup'), {
             method: 'POST',
             headers: {
