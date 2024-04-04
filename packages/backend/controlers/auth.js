@@ -16,20 +16,25 @@ const decodeJwt = (jwt) => {
     try {
         return verify(jwt, secret);
     } catch (e) {
-        throw new Error('Failed to decode JWT');
+        return null;
     }
 };
 
 const handleLogin = ({ usr, pwd }, req, res) => {
-    getUser(usr, (user) => {
-        if (!user) {
-            res.status(404).json({ status: 404, message: "User not found" });
-        } else if (user.credentials.hash !== hashPwd(pwd)) {
-            res.status(401).json({ status: 401, message: "Invalid password" });
-        } else {
-            res.status(200).json({ status: 200, jwt: encodeJwt(user), user: { id: user.id, name: user.name } });
-        }
-    }, true);
+    try {
+        getUser(usr, (user) => {
+            if (!user) {
+                res.status(404).json({ status: 404, message: "User not found" });
+            } else if (user.credentials.hash !== hashPwd(pwd)) {
+                res.status(401).json({ status: 401, message: "Invalid password" });
+            } else {
+                res.status(200).json({ status: 200, jwt: encodeJwt(user), user: { id: user.id, name: user.name } });
+            }
+        }, true);
+    } catch (e) {
+        res.status(500).json({ status: 500, message: "Database is offline" });
+    }
+    
 };
 
 const handleSignup = ({ usr, pwd }, req, res) => {

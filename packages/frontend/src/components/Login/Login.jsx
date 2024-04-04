@@ -12,12 +12,12 @@ import { getApiUrl } from '../../util';
 import { useUser } from '../../hooks/user';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { handleArrowDownClick } from '../keyHandlers/arrowDown';
-import { handleArrowUpClick } from '../keyHandlers/arrowUp';
+import { handleArrowDownClick } from '../../handlers/key/arrowDown';
+import { handleArrowUpClick } from '../../handlers/key/arrowUp';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { revalidate } = useUser();  
+  const { revalidate } = useUser();
 
   return (
     <Formik
@@ -26,7 +26,6 @@ const Login = () => {
       onSubmit={(values, actions) => {
         actions.resetForm();
         
-        // TODO: Refactor the code so when server is off, it navigates to /service-unavailable
         fetch(getApiUrl('/auth/login'), {
           method: 'POST',
           headers: {
@@ -38,16 +37,17 @@ const Login = () => {
             const jsn = await res.json();
             if (res.ok) {
               handleAuthLogin(navigate, revalidate)(jsn);
-            } else if (res.status === 503) {
-              console.log('Navigating to /service-unavailable');
-              navigate('/service-unavailable');
-            } else if (jsn.message) {
-              toast.error(<div className='text-lg'>{jsn.message}</div>);
+            } else if (res.json) {
+                toast.error(<div className='text-lg'>{jsn.message}</div>);
             }
           })
           .catch((err) => {
-            console.log(err);
-            toast.error(<div className='text-lg'>Failed to connect to the server. Please check your connection.</div>);
+            console.error(err);
+            if (err.message === 'Failed to fetch') {
+              navigate('/service-unavailable');
+            } else {
+              toast.error(<div className='text-lg'>Failed to connect to the server. Please check your connection.</div>);
+            }
           });
       }}
     >

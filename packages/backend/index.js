@@ -49,7 +49,7 @@ app.get('/users', async (req, res) => {
         },
     });
 
-    // Send the resutl back to the client
+    // Send the result back to the client
     res.json(users);
 });
 

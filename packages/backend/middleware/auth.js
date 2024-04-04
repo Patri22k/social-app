@@ -13,11 +13,7 @@ const jwtMW = (req, res, next) => {
             res.status(401).json({ status: 401, message: 'Invalid token' });
         }
     } catch (e) {
-        if (e.message === 'Failed to decode JWT') {
-            res.status(503).json({ status: 503, message: 'Service Unavailable'});
-        } else {
-            res.status(401).json({ status: 401, message: "Unauthorized" });
-        }
+        res.status(401).json({ status: 401, message: "Unauthorized" });
     }
 };
 
