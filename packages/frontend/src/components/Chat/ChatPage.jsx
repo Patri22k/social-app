@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import useOnClickOutside from "react-cool-onclickoutside";
 import { useState, useEffect } from 'react';
 
-export default function ChatPage(props) {
+export default function ChatPage() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -87,6 +87,7 @@ export default function ChatPage(props) {
     useEffect(() => {
         const fetchUsers = async () => {
             const token = localStorage.getItem('jwt');
+            console.log(token);
             try {
                 const response = await fetch(`http://localhost:5000/users?name=${searchTerm}`, {
                     headers: {

@@ -33,11 +33,11 @@ const Login = () => {
           },
             body: JSON.stringify(values),
           })
-          .then(async (res) => {
-            const jsn = await res.json();
+          .then(res => {
+            const jsn = res.json();
             if (res.ok) {
               handleAuthLogin(navigate, revalidate)(jsn);
-            } else if (res.json) {
+            } else if (jsn.message) {
                 toast.error(<div className='text-lg'>{jsn.message}</div>);
             }
           })
@@ -45,6 +45,8 @@ const Login = () => {
             console.error(err);
             if (err.message === 'Failed to fetch') {
               navigate('/service-unavailable');
+            } else if (err.message === 'Invalid token' || err.message === 'Unauthorized') {
+              navigate('/login');
             } else {
               toast.error(<div className='text-lg'>Failed to connect to the server. Please check your connection.</div>);
             }

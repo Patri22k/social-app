@@ -10,6 +10,7 @@ const cors = require('cors');
 const authRouter = require('./routers/authRouter');
 const userRouter = require('./routers/userRouter');
 const { PrismaClient } = require('@prisma/client');
+const checkToken = require('./middleware/checkToken');
 
 const app = express();
 const prisma = new PrismaClient();
@@ -33,6 +34,7 @@ app.use(cors({
  * Middleware for handling authentication routes.
  * All routes starting with '/auth' will be handled by the authRouter.
  */
+app.use(checkToken);
 app.use('/auth', authRouter);
 app.use(userRouter);
 
@@ -53,20 +55,10 @@ app.get('/users', async (req, res) => {
     res.json(users);
 });
 
-/**
- * Event listener for when a client connects to the server using Socket.IO.
- * This function will be called whenever a new client connects.
- *
- * @param {Socket} socket - The Socket.IO socket object representing the client connection.
- */
 io.on('connect', (socket) => {
     // Handle socket events here
 });
 
-/**
- * Start the server and listen on port 5000.
- * This function will be called when the server starts listening.
- */
 server.listen(5000, () => {
     console.log('Server is running...');
 });

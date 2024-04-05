@@ -14,6 +14,7 @@ const { handleLogin, handleSignup } = require('./auth');
 const formVerification = (req, res, action) => {
   // Extract the data from the request body
   const data = req.body;
+  console.log(data);
 
   // Validate the data against the schema
   schema
@@ -21,7 +22,6 @@ const formVerification = (req, res, action) => {
     .catch(err => {
       // If validation fails, send a 422 status code and the validation error messages
       res.status(422).json({ status: 422, message: err.errors });
-      console.log(err.errors);
     })
     .then(valid => {
       if (valid) {
