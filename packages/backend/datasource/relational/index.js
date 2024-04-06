@@ -9,7 +9,7 @@ const saveUser = (user, callback) => {
 const getUser = (name, callback, includeCred) => {
     prisma.user.findUnique({
         where: { name },
-        include: { credentials: includeCred ?? false }
+        include: includeCred ? { credentials: true } : undefined
     }).then(callback);
 };
 

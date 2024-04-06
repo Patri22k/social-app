@@ -25,20 +25,24 @@ const Login = () => {
       validationSchema={schema}
       onSubmit={(values, actions) => {
         actions.resetForm();
-        
+        const token = localStorage.getItem('jwt');
+
         fetch(getApiUrl('/auth/login'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
           },
-            body: JSON.stringify(values),
-          })
-          .then(res => {
-            const jsn = res.json();
-            if (res.ok) {
-              handleAuthLogin(navigate, revalidate)(jsn);
-            } else if (jsn.message) {
-                toast.error(<div className='text-lg'>{jsn.message}</div>);
+          body: JSON.stringify(values),
+          credentials: 'include',
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.token) {
+              const jwt = data.token;
+              handleAuthLogin(navigate, revalidate)(jwt);
+            } else if (data.message) {
+              toast.error(<div className='text-lg'>{data.message}</div>);
             }
           })
           .catch((err) => {
@@ -91,10 +95,9 @@ const Login = () => {
                 Log In
               </SubmitButton>
               <AntButton
-                name='submit'
-                type='primary' 
+                type='primary'
                 onClick={() => {
-                    navigate('/signup')
+                  navigate('/signup')
                 }}
               >
                 Sign Up

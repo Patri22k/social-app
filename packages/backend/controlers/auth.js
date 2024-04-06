@@ -21,20 +21,20 @@ const decodeJwt = (jwt) => {
 };
 
 const handleLogin = ({ usr, pwd }, req, res) => {
-    try {
-        getUser(usr, (user) => {
-            if (!user) {
-                res.status(404).json({ status: 404, message: "User not found" });
-            } else if (user.credentials.hash !== hashPwd(pwd)) {
-                res.status(401).json({ status: 401, message: "Invalid password" });
-            } else {
-                res.status(200).json({ status: 200, jwt: encodeJwt(user), user: { id: user.id, name: user.name } });
-            }
-        }, true);
-    } catch (e) {
-        res.status(500).json({ status: 500, message: "Database is offline" });
-    }
-    
+    getUser(usr, (err, user) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ status: 500, message: "Database is offline" });
+        }
+        
+        if (!user) {
+            return res.status(404).json({ status: 404, message: "User not found" });
+        } else if (user.credentials.hash !== hashPwd(pwd)) {
+            return res.status(401).json({ status: 401, message: "Invalid password" });
+        } else {
+            return res.status(200).json({ status: 200, jwt: encodeJwt(user), user: { id: user.id, name: user.name } });
+        }
+    }, true);
 };
 
 const handleSignup = ({ usr, pwd }, req, res) => {

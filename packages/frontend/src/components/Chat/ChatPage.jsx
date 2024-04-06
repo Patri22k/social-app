@@ -10,9 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faMagnifyingGlass, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import useOnClickOutside from "react-cool-onclickoutside";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-export default function ChatPage() {
+export default function ChatPage(props) {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -28,7 +28,6 @@ export default function ChatPage() {
         return
     };
 
-    /*
     const [newMessage, setNewMessage] = useState('');
 
     // Ref for scrolling to the bottom of the chat
@@ -64,7 +63,7 @@ export default function ChatPage() {
         }
     }
 
-    Scroll to the bottom of the chat when a new message is added
+    // Scroll to the bottom of the chat when a new message is added
     useEffect(() => {
         if (bottomRef && bottomRef.current) {
             bottomRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -79,7 +78,6 @@ export default function ChatPage() {
         textAreaRef.current.style.height = "auto";
         textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px';
     }, [newMessage]);
-    */
 
     const [searchTerm, setSearchTerm] = useState('');
     const [users, setUsers] = useState([]);
@@ -87,7 +85,6 @@ export default function ChatPage() {
     useEffect(() => {
         const fetchUsers = async () => {
             const token = localStorage.getItem('jwt');
-            console.log(token);
             try {
                 const response = await fetch(`http://localhost:5000/users?name=${searchTerm}`, {
                     headers: {
@@ -160,14 +157,12 @@ export default function ChatPage() {
                 <div className="chatContainer flex flex-col h-screen w-2/3">
                     <div className="chatDisplay flex flex-col items-end w-full h-4/5 overflow-auto">
                         {/*Displaying messages */}
-                        {/*
                         {messages && messages.map((message, index) => (
                             <div key={index} className="message mr-6 mb-3 mt-3">
                                 <p className='max-w-full break-all px-3 py-2 text-base bg-zinc-300 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl truncate whitespace-normal'>{message}</p>
                             </div>
                         ))}
                         <div ref={bottomRef}></div>
-                        */}
                     </div>
                     <div className="chatInput relative w-full h-1/5">
                         {/* Input field for typing messages */}
@@ -175,17 +170,17 @@ export default function ChatPage() {
                             <textarea
                                 className='resize-none w-full text-base h-6 focus:outline-none active:outline-none max-h-[calc(20vh-8px)] overflow-x-hidden'
                                 placeholder="Here you can type..."
-                                // onChange={handleNewMessage}
-                                // onKeyDown={handleKeyDown}
+                                onChange={handleNewMessage}
+                                onKeyDown={handleKeyDown}
                                 name="newMessage"
                                 // value={newMessage}
                                 rows="1"
-                                // ref={textAreaRef}
+                                ref={textAreaRef}
                             ></textarea>
                             <button
                                 type="Send"
                                 className="ml-auto h-12 w-12"
-                                // onClick={handleSendNewMessage}
+                                onClick={handleSendNewMessage}
                             >
                                 <FontAwesomeIcon icon={faPaperPlane}
                                     className='align-middle z-20 mr-3'

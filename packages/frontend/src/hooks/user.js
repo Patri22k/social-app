@@ -26,7 +26,7 @@ const UserProvider = ({ children }) => {
             }
         }
         // Fetch that thing
-        fetch(getApiUrl("/user/@me"), init)
+        fetch(getApiUrl("/user/@me"), init) //line 29
             .then(res => res.json())
             .then(({ user }) => setUser(user))
             .catch((e) => setError(e.message))

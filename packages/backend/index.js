@@ -10,7 +10,6 @@ const cors = require('cors');
 const authRouter = require('./routers/authRouter');
 const userRouter = require('./routers/userRouter');
 const { PrismaClient } = require('@prisma/client');
-const checkToken = require('./middleware/checkToken');
 
 const app = express();
 const prisma = new PrismaClient();
@@ -19,7 +18,7 @@ const server = require('http').createServer(app);
 const io = new Server(server, {
     cors: {
         origin: 'http://localhost:3000',
-        credential: "true",
+        credentials: "true",
     },
 });
 
@@ -34,7 +33,6 @@ app.use(cors({
  * Middleware for handling authentication routes.
  * All routes starting with '/auth' will be handled by the authRouter.
  */
-app.use(checkToken);
 app.use('/auth', authRouter);
 app.use(userRouter);
 
