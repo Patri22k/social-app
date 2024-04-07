@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { jwtMW } = require('../middleware/auth');
 const { getUser } = require("../datasource/relational");
 
-router.get('/user/@me', jwtMW, (req, res) => {
+router.get('/user/@me', (req, res) => {
     getUser(req.user.name, (user) => {
         if (user) {
             res.status(200).json({ status: 200, user });

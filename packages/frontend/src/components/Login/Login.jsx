@@ -25,28 +25,37 @@ const Login = () => {
       validationSchema={schema}
       onSubmit={(values, actions) => {
         actions.resetForm();
-        const token = localStorage.getItem('jwt');
+        // const token = localStorage.getItem('jwt');
 
         fetch(getApiUrl('/auth/login'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            //'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify(values),
-          credentials: 'include',
+          //credentials: 'include',
         })
-          .then(res => res.json())
-          .then(data => {
-            if (data.token) {
-              const jwt = data.token;
-              handleAuthLogin(navigate, revalidate)(jwt);
-            } else if (data.message) {
-              toast.error(<div className='text-lg'>{data.message}</div>);
+          .then(async (res) => {
+            const jsn = await res.json();
+            if (res.ok) {
+              handleAuthLogin(navigate, revalidate)(res);
+            } else if (jsn.message) {
+              toast.error(<div className='text-lg'>{jsn.message}</div>);
             }
           })
+          //.then(res => res.json())
+          //.then(data => {
+            //if (data.token) {
+            //  const jwt = data.token;
+            //  handleAuthLogin(navigate, revalidate)(jwt);
+            //} else if (data.message) {
+            //  toast.error(<div className='text-lg'>{data.message}</div>);
+            //}
           .catch((err) => {
             console.error(err);
+            toast.error(<div className='text-lg'>Failed to connect to the server. Please check your connection.</div>);
+            /*
             if (err.message === 'Failed to fetch') {
               navigate('/service-unavailable');
             } else if (err.message === 'Invalid token' || err.message === 'Unauthorized') {
@@ -54,6 +63,7 @@ const Login = () => {
             } else {
               toast.error(<div className='text-lg'>Failed to connect to the server. Please check your connection.</div>);
             }
+            */
           });
       }}
     >
@@ -96,6 +106,7 @@ const Login = () => {
               </SubmitButton>
               <AntButton
                 type='primary'
+                name='submit'
                 onClick={() => {
                   navigate('/signup')
                 }}

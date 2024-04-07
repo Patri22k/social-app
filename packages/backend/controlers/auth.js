@@ -16,7 +16,7 @@ const decodeJwt = (jwt) => {
     try {
         return verify(jwt, secret);
     } catch (e) {
-        throw new Error('Failed to decode JWT: ' + e.message);
+        return null;
     }
 };
 

@@ -10,6 +10,7 @@ const cors = require('cors');
 const authRouter = require('./routers/authRouter');
 const userRouter = require('./routers/userRouter');
 const { PrismaClient } = require('@prisma/client');
+const { jwtMW } = require('./middleware/auth');
 
 const app = express();
 const prisma = new PrismaClient();
@@ -34,6 +35,7 @@ app.use(cors({
  * All routes starting with '/auth' will be handled by the authRouter.
  */
 app.use('/auth', authRouter);
+app.use(jwtMW);
 app.use(userRouter);
 
 // Set up the /users endpoint
